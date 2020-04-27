@@ -1,0 +1,495 @@
+<html>
+  <head>
+    <title>SureFire</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chartist/0.11.0/chartist.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartist/0.11.0/chartist.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="https://code.responsivevoice.org/responsivevoice.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript">
+      $('body').tooltip({
+        selector: '[data-toggle="tooltip"]'
+      });
+      
+      function change(button){
+        button.innerText="Loading..."
+        button.disabled=true
+        document.getElementById("url").disabled=true
+      }
+      
+      function GOnClick(result){
+        container = document.getElementById("details")
+        container.innerText = ""
+        var h1Node = document.createElement("h2")
+        var h1Text = document.createTextNode("Google Safe Browsing Report")
+        h1Node.appendChild(h1Text)
+        h1Node.className = "text-center"
+        container.appendChild(h1Node)
+        if (result == null){
+          var pN = document.createElement("p")
+          var pNT = document.createTextNode("Google Safe Browsing : Safe")
+          pN.appendChild(pNT)
+          pN.className = "text-center"
+          container.appendChild(pN)
+        } else {
+          var tableNode = document.createElement("table")
+          tableNode.className = "table table-condensed table-hover table-bordered"
+          var theadNode = document.createElement("thead")
+          var trHead = document.createElement("tr")
+          var th1 = document.createElement("th")
+          var th1T = document.createTextNode("Key")
+          var th2 = document.createElement("th")
+          var th2T = document.createTextNode("Value")
+          th1.appendChild(th1T)
+          th2.appendChild(th2T)
+          trHead.appendChild(th1)
+          trHead.appendChild(th2)
+          theadNode.appendChild(trHead)
+          tableNode.appendChild(theadNode)
+          var tbody = document.createElement("tbody")
+          console.log(result)
+          for (i = 0; i < result.length; i++){
+            var key = Object.keys(result[i])
+            for (j = 0; j < key.length; j++){
+              var tr = document.createElement("tr")
+              var td1 = document.createElement("td")
+              var td1T = document.createTextNode(key[j])
+              td1.appendChild(td1T)
+              var td2 = document.createElement("td")
+              if(key[j] == "threat"){
+                var td2T = document.createTextNode(result[i][key[j]]["url"])
+              } else {
+                var td2T = document.createTextNode(result[i][key[j]])
+              }
+              td2.appendChild(td2T)
+              tr.appendChild(td1)
+              tr.appendChild(td2)
+              tbody.appendChild(tr)
+            }
+          }
+          tableNode.appendChild(tbody)
+          container.appendChild(tableNode)
+        }
+      }
+      
+      function VOnClick(result){
+        container = document.getElementById("details")
+        container.innerText = ""
+        var h1Node = document.createElement("h2")
+        var h1Text = document.createTextNode("VirusTotal Report")
+        h1Node.appendChild(h1Text)
+        h1Node.className = "text-center"
+        container.appendChild(h1Node)
+        var tableNode = document.createElement("table")
+        tableNode.className = "table table-condensed table-hover table-bordered"
+        var theadNode = document.createElement("thead")
+        var trHead = document.createElement("tr")
+        var th1 = document.createElement("th")
+        var th1T = document.createTextNode("Scanner")
+        var th2 = document.createElement("th")
+        var th2T = document.createTextNode("Result")
+        th1.appendChild(th1T)
+        th2.appendChild(th2T)
+        trHead.appendChild(th1)
+        trHead.appendChild(th2)
+        theadNode.appendChild(trHead)
+        tableNode.appendChild(theadNode)
+        var tbody = document.createElement("tbody")
+        
+        for (i = 0; i < result.length; i++){
+          var tr = document.createElement("tr")
+          var td1 = document.createElement("td")
+          var td1T = document.createTextNode(result[i]["scanner"])
+          td1.appendChild(td1T)
+          var td2 = document.createElement("td")
+          var td2T = document.createTextNode(result[i]["result"])
+          td2.appendChild(td2T)
+          tr.appendChild(td1)
+          tr.appendChild(td2)
+          if(result[i]["result"] == "Malicious site" || result[i]["result"] == "Phishing site"){
+            tr.className = "table-danger"
+          } else if (result[i]["result"] == "Clean site"){
+            tr.className = "table-success"
+          } else {
+            tr.className = "table-secondary"
+          }
+          tbody.appendChild(tr)
+        }
+        tableNode.appendChild(tbody)
+        container.appendChild(tableNode)
+      }
+      
+      function NOnClick(result){
+        var features = ["Boosting", "Decision Tree", "Neural Network", "Support Vector Machine"]
+        var featureKeys = ["Boosting_ans", "DT_ans", "NN_Ans", "SVM_Ans"]
+        container = document.getElementById("details")
+        container.innerText = ""
+        var h1Node = document.createElement("h2")
+        var h1Text = document.createTextNode("Machine Learning Report")
+        h1Node.appendChild(h1Text)
+        h1Node.className = "text-center"
+        container.appendChild(h1Node)
+        var tableNode = document.createElement("table")
+        tableNode.className = "table table-condensed table-hover table-bordered"
+        var theadNode = document.createElement("thead")
+        var trHead = document.createElement("tr")
+        var th1 = document.createElement("th")
+        var th1T = document.createTextNode("Machine Learning Algorithm")
+        var th2 = document.createElement("th")
+        var th2T = document.createTextNode("Result")
+        th1.appendChild(th1T)
+        th2.appendChild(th2T)
+        trHead.appendChild(th1)
+        trHead.appendChild(th2)
+        theadNode.appendChild(trHead)
+        tableNode.appendChild(theadNode)
+        var tbody = document.createElement("tbody")
+        
+        for(i = 0; i < featureKeys.length; i++){
+          var tr = document.createElement("tr")
+          var td1 = document.createElement("td")
+          var td1T = document.createTextNode(features[i])
+          td1.appendChild(td1T)
+          var td2 = document.createElement("td")
+          if (result[featureKeys[i]] == -1){
+            var td2T = document.createTextNode("Safe")
+            tr.className = "table-success"
+          } else if (result[featureKeys[i]] == 1){
+            var td2T = document.createTextNode("Not Safe")
+            tr.className = "table-danger"
+          } else {
+            var td2T = document.createTextNode("Suspecious")
+            tr.className = "table-warning"
+          }
+          
+          td2.appendChild(td2T)
+          tr.appendChild(td1)
+          tr.appendChild(td2)
+          tbody.appendChild(tr)
+        }
+        tableNode.appendChild(tbody)
+        container.appendChild(tableNode)
+      }
+
+      function displayTable(data){
+        container = document.getElementById("main")
+        container.innerText = ""
+        document.getElementById("graph").innerText = ""
+        document.getElementById("url").value = ""
+
+        var tableNode = document.createElement("table")
+        tableNode.className = "table table-condensed table-hover table-bordered"
+        var theadNode = document.createElement("thead")
+        var trHead = document.createElement("tr")
+        var th1 = document.createElement("th")
+        var th1T = document.createTextNode("Scanner")
+        var th2 = document.createElement("th")
+        var th2T = document.createTextNode("Result")
+        th1.appendChild(th1T)
+        th2.appendChild(th2T)
+        trHead.appendChild(th1)
+        trHead.appendChild(th2)
+        theadNode.appendChild(trHead)
+        tableNode.appendChild(theadNode)
+        var tbody = document.createElement("tbody")
+        tableNode.appendChild(tbody)
+        console.log(data)
+        
+        //print google
+        var trG = document.createElement("tr")
+        var tdG1 = document.createElement("td")
+        var tdG1T = document.createTextNode("Google Safe Browsing")
+        var tdG2 = document.createElement("td")
+        if (Object.keys(data["Google"]).length == 0){
+          var tdG2T = document.createTextNode("Safe")
+          trG.className = "table-success"
+        } else {
+          var tdG2T = document.createTextNode("Not safe")
+          trG.className = "table-danger"
+        }
+        tdG1.appendChild(tdG1T)
+        tdG2.appendChild(tdG2T)
+        trG.appendChild(tdG1)
+        trG.appendChild(tdG2)
+        trG.setAttribute("data-toggle", "tooltip")
+        trG.setAttribute("data-placement", "top")
+        trG.setAttribute("title", "Click to see details")
+        trG.addEventListener("click", function(){GOnClick(data["Google"]["matches"])})
+        
+        //print NN
+        var trN = document.createElement("tr")
+        var tdN1 = document.createElement("td")
+        var tdN1T = document.createTextNode("Machine Learning")
+        var tdN2 = document.createElement("td")
+        if (data["ML"]["final_result"] == -1){
+          var tdN2T = document.createTextNode("Safe")
+          trN.className = "table-success"
+        } else {
+          var tdN2T = document.createTextNode("Not safe")
+          trN.className = "table-danger"
+        }
+        tdN1.appendChild(tdN1T)
+        tdN2.appendChild(tdN2T)
+        trN.appendChild(tdN1)
+        trN.appendChild(tdN2)
+        trN.setAttribute("data-toggle", "tooltip")
+        trN.setAttribute("data-placement", "top")
+        trN.setAttribute("title", "Click to see details")
+        trN.addEventListener("click", function(){NOnClick(data["ML"])})
+        
+        //print Virus Total
+        var trV = document.createElement("tr")
+        var tdV1 = document.createElement("td")
+        var tdV1T = document.createTextNode("VirusTotal")
+        var tdV2 = document.createElement("td")
+        if (data["VirusTotal"]["status"] == false){
+          var tdV2T = document.createTextNode("Safe")
+          trV.className = "table-success"
+        } else {
+          var tdV2T = document.createTextNode("Not safe")
+          trV.className = "table-danger"
+        }
+        tdV1.appendChild(tdV1T)
+        tdV2.appendChild(tdV2T)
+        trV.appendChild(tdV1)
+        trV.appendChild(tdV2)
+        trV.setAttribute("data-toggle", "tooltip")
+        trV.setAttribute("data-placement", "top")
+        trV.setAttribute("title", "Click to see details")
+        trV.addEventListener("click", function(){VOnClick(data["VirusTotal"]["result"])})
+        
+        tbody.appendChild(trG)
+        tbody.appendChild(trN)
+        tbody.appendChild(trV)
+        
+        tableNode.appendChild(tbody)
+        container.appendChild(tableNode)
+      }
+      
+      function reportWebsite(url, status){
+        //send post to update site status
+        data = {"url": url, "status": status}
+        if(status == 1){
+          document.getElementById("repmodbg").className = "modal-header bg-danger"
+          document.getElementById("repobut").className = "btn btn-danger"
+        } else {
+          document.getElementById("repmodbg").className = "modal-header bg-success"
+          document.getElementById("repobut").className = "btn btn-success"
+        }
+        $("#reportModel").modal('toggle')
+      }
+      
+      function displayGraph(data){
+        document.getElementById("main").innerText = ""
+        document.getElementById("details").innerText = ""
+        var seriesData = []
+        if (data["ML"]["final_result"] == -1){
+          seriesData.push(-1)
+        } else {
+          seriesData.push(1)
+        }
+        if (Object.keys(data["Google"]).length == 0){
+          seriesData.push(-1)
+        } else {
+          seriesData.push(1)
+        }
+        if (data["VirusTotal"]["status"] == false){
+          seriesData.push(-1)
+        } else {
+          seriesData.push(1)
+        }
+
+        var data = {
+          labels: ['Machine Learning', 'Google Safe Browsing', 'VirusTotal'],
+          series: [
+            seriesData
+            ]
+        };
+
+        var options = {
+          high: 1,
+          low: -1,
+          axisY:{
+            onlyInteger: true
+          }
+        }
+
+        var chart = new Chartist.Bar('.ct-chart', data, options);
+
+        chart.on('created', function() {
+          var bars =  document.getElementsByClassName("ct-bar");
+          for(var i = 0 ; i<bars.length; i++){
+            if (bars[i].getAttribute("ct:value") == -1){
+              bars[i].style = "stroke:green;stroke-width:60px"
+            } else {
+              bars[i].style = "stroke:red;stroke-width:60px"
+            }
+          }
+        });
+      }
+      
+      function showShort(data){
+        var brief = document.getElementById("brief")
+        brief.innerText = ""
+        document.getElementById("url").value = ""
+        
+        var h1Node = document.createElement("h2")
+        var h1Text = document.createTextNode("URL Phishing Status")
+
+        h1Node.className = "text-center"
+        h1Node.appendChild(h1Text)
+        brief.appendChild(h1Node)
+
+        var pNode = document.createElement("p")
+        var pText = document.createTextNode("Scanned URL : " + data["url"])
+        pNode.className = "text-center"
+        pNode.appendChild(pText)
+        brief.appendChild(pNode)
+        
+        var safe = false
+        if (data["finalSureFireScore"] <= 0.6){
+          safe = true
+        }
+        var pStatus = document.createElement("h3")
+        if (safe == true){
+          var pStatusT = document.createTextNode("Safe")
+          pStatus.className = "text-success text-center"
+        } else {
+          var pStatusT = document.createTextNode("Not Safe")
+          pStatus.className = "text-danger text-center"
+          responsiveVoice.speak('UnSafe')
+        }
+        pStatus.appendChild(pStatusT)
+        
+        var repBut = document.createElement("button")
+        if (safe == true){
+          var repButT = document.createTextNode("Report Phishing")
+          repBut.className = "btn btn-danger mx-2 mt-2"
+          repBut.addEventListener("click", function(){reportWebsite(data["url"], 1)})
+        } else {
+          var repButT = document.createTextNode("Report Safe")
+          repBut.className = "btn btn-success mx-2 mt-2"
+          repBut.addEventListener("click", function(){reportWebsite(data["url"], -1)})
+        }
+        repBut.appendChild(repButT)
+        
+        var detBut = document.createElement("button")
+        var detButT = document.createTextNode("Show Details")
+        detBut.appendChild(detButT)
+        detBut.className = "btn btn-primary mx-2 mt-2"
+        var graphBut = document.createElement("button")
+        var graphButT = document.createTextNode("Show Graph")
+        graphBut.appendChild(graphButT)
+        graphBut.className = "btn btn-primary mx-2 mt-2"
+        var butDiv = document.createElement("div")
+        butDiv.className = "row"
+        var butDiv2 = document.createElement("div")
+        butDiv2.className = "col-12 text-center"
+        butDiv2.appendChild(repBut)
+        butDiv.appendChild(butDiv2)
+        butDiv2.appendChild(detBut)
+        butDiv2.appendChild(graphBut)
+        graphBut.addEventListener("click", function(){displayGraph(data)})
+        detBut.addEventListener("click", function(){displayTable(data)})
+        brief.appendChild(pStatus)
+        brief.appendChild(butDiv)
+      }
+
+      function getData(){
+        change(document.getElementById("loadbutton"))
+        scanUrl = document.getElementById("url").value
+        if (scanUrl == "") {
+          $("#myModal").modal('toggle')
+          document.getElementById("loadbutton").innerText="Submit"
+          document.getElementById("loadbutton").disabled=false
+          document.getElementById("url").disabled=false
+          return false
+        } else {
+          var postData = {"url": scanUrl}
+          const Http = new XMLHttpRequest();
+          const url = '/scanurl';
+          Http.open("POST", url);
+          Http.setRequestHeader("Content-type", "application/json");
+          Http.onload = function (){
+            data = JSON.parse(Http.responseText)
+            document.getElementById("loadbutton").innerText="Submit"
+            document.getElementById("loadbutton").disabled=false
+            document.getElementById("url").disabled=false
+            document.getElementById("details").innerText = ""
+            document.getElementById("main").innerText = ""
+            document.getElementById("graph").innerText = ""
+            showShort(data)
+          }
+          Http.send(JSON.stringify(postData));
+        }
+        return false
+      }
+    </script>
+
+    <h1 class="text-center mt-5">SureFire</h1>
+    <div class="container mt-5">
+      <form action="#" onsubmit="return getData(this)">
+        <div class="form-group row">
+          <label for="url" class="col-sm-2 col-form-label" style="text-align: right">URL to Scan: </label>
+          <input type="text" class="form-control col-sm-9" id="url" name="url">
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-4">&nbsp;</div>
+          <button type="submit" id="loadbutton" class="btn btn-primary btn-lg mt-3 col-sm-4" > Submit </button>
+          <div class="col-sm-3">&nbsp;</div>
+        </div>
+      </form>
+
+      <!-- Table -->
+      <div id="brief"></div>
+      <div id="main" class="mt-5"></div>
+      <div id="details" class="mt-5"></div>
+      <div id="graph" class="mt-1 ct-chart ct-perfect-fourth" style="width: 50%;margin-left: 25%"></div>
+    </div>
+
+    <!-- Modal Empty url-->
+    <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header bg-danger">
+            <h4 class="modal-title">Something is wrong!</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <p>Enter URL to Scan</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Modal Submit status url-->
+    <div class="modal fade" id="reportModel" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div id="repmodbg">
+            <h4 class="modal-title">Report Submitted</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <p>Thank you for reporting. We will improve phishing detection using your report.</p>
+          </div>
+          <div class="modal-footer">
+            <button id="repobut" type="button" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

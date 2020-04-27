@@ -1,0 +1,21 @@
+{
+  "manifest_version": 2,
+  "name": "SureFire",
+  "version": "1.0",
+  "description": "Block Phishing Websites",
+  
+  "icons": {
+    "48": "icons/border-48.png"
+  },
+  
+  "permissions": [
+    "<all_urls>" 
+  ],
+  
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js": ["surefire.js"]
+    }
+  ]
+}
