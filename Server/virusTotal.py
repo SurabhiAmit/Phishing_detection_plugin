@@ -4,7 +4,7 @@ import time
 
 def scan(urlToScan):
 
-  apikey = '01e0d87744ca2b58bfb8776db341b51282e0bec4b278b9f833172d1421ea2d58'
+  apikey = '<please insert yours>'
   url = 'https://www.virustotal.com/vtapi/v2/url/scan'
   params = {'apikey': apikey, 'url': urlToScan}
   response = requests.post(url, data=params)
